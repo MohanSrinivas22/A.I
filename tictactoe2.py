@@ -31,54 +31,44 @@ def printBoard(board):
 printBoard(theBoard)
  
 def win(board):
-    if board['7'] == board['8']==board['9']!='-':return True
-    elif board['4']==board['5']==board['6']!='-':return True
-    elif board['1']==board['2']==board['3']!='-':return True
-    elif board['1']==board['4']==board['7']!='-':return True
-    elif board['2']==board['5']==board['8']!='-':return True
-    elif board['3']==board['6']==board['9']!='-':return True
-    elif board['1']==board['5']==board['9']!='-':return True
-    elif board['3']==board['5']==board['7']!='-':return True
+    for i in (1,4,7):
+        a,b,c=str(i),str(i+1),str(i+2)                          #row wise win.
+        if board[a]==board[b]==board[c]==turn:return True
+    for i in (1,2,3):
+        a,b,c=str(i),str(i+3),str(i+6)                          #column wise win.
+        if board[a]==board[b]==board[c]==turn:return True
+    if board['1']==board['5']==board['9']==turn:return True     # 1,5,9 diagonal win.
+    if board['3']==board['5']==board['7']==turn:return True     # 3,5,7 diagonal win.
     else:return False
 
     
 def poswin(board, turn):
-    if board['4']==board['5']==turn or board['6']==board['5']==turn or board['4']==board['6']==turn:
-        if board['4']=='-':return '4'
-        elif board['5']=='-':return '5'
-        elif board['6']=='-':return '6'
-    if board['1']==board['2']==turn or board['2']==board['3']==turn or board['3']==board['1']==turn:
-        if board['1']=='-':return '1'
-        elif board['2']=='-':return '2'
-        elif board['3']=='-':return '3'
-    if board['7']==board['8']==turn or board['8']==board['9']==turn or board['9']==board['7']==turn:
-        if board['7']=='-':return '7'
-        elif board['8']=='-':return '8'
-        elif board['9']=='-':return '9'
-    if board['4']==board['5']==turn or board['6']==board['5']==turn or board['4']==board['6']==turn:
-        if board['4']=='-':return '4'
-        elif board['5']=='-':return '5'
-        elif board['6']=='-':return '6'
-    if board['1']==board['4']==turn or board['4']==board['7']==turn or board['1']==board['7']==turn:
-        if board['1']=='-':return '1'
-        elif board['4']=='-':return '4'
-        elif board['7']=='-':return '7'
-    if board['2']==board['5']==turn or board['5']==board['8']==turn or board['8']==board['2']==turn:
-        if board['2']=='-':return '2'
-        elif board['5']=='-':return '5'
-        elif board['8']=='-':return '8'
-    if board['3']==board['6']==turn or board['6']==board['9']==turn or board['9']==board['3']==turn:
-        if board['3']=='-':return '3'
-        elif board['6']=='-':return '6'
-        elif board['9']=='-':return '9'
-    if board['1']==board['5']==turn or board['5']==board['9']==turn or board['9']==board['1']==turn:
-        if board['1']=='-':return '1'
-        elif board['5']=='-':return '5'
-        elif board['9']=='-':return '9'
-    if board['3']==board['5']==turn or board['5']==board['7']==turn or board['3']==board['7']==turn:
-        if board['3']=='-':return '3'
-        elif board['5']=='-':return '5'
-        elif board['7']=='-':return '7'
+    for i in (1,4,7):
+        a,b,c=str(i),str(i+1),str(i+2)
+        if board[a]==board[b]==turn or board[b]==board[c]==turn or board[c]==board[a]==turn:        #row wise.
+            if board[a]=='-':return a
+            elif board[b]=='-':return b
+            elif board[c]=='-':return c
+    
+    for i in (1,2,3):
+        a,b,c=str(i),str(i+3),str(i+6)
+        if board[a]==board[b]==turn or board[b]==board[c]==turn or board[c]==board[a]==turn:        #column wise.
+            if board[a]=='-':return a
+            elif board[b]=='-':return b
+            elif board[c]=='-':return c
+    
+    a,b,c='1','5','9'
+    if board[a]==board[b]==turn or board[b]==board[c]==turn or board[c]==board[a]==turn:            # 1,5,9 diagonal.
+        if board[a]=='-':return a
+        elif board[b]=='-':return b
+        elif board[c]=='-':return c       
+    
+    a,b,c='3','5','7'
+    if board[a]==board[b]==turn or board[b]==board[c]==turn or board[c]==board[a]==turn:            # 3,5,7 diagonal.
+        if board[a]=='-':return a
+        elif board[b]=='-':return b
+        elif board[c]=='-':return c 
+        
     return '0'
     
 def game():
