@@ -30,7 +30,7 @@ def printBoard(board):
     print('-------------')
 printBoard(theBoard)
  
-def win(board):
+def win(board,turn):
     for i in (1,4,7):
         a,b,c=str(i),str(i+1),str(i+2)                          #row wise win.
         if board[a]==board[b]==board[c]==turn:return True
@@ -86,7 +86,7 @@ def game():
             print("The place is already filled.\nplace at ?")
             continue
         printBoard(theBoard)
-        if count>4 and win(theBoard):
+        if count>4 and win(theBoard,'X'):
             print("!! Game Over !!")
             print("You have Won.")
             break
@@ -109,7 +109,7 @@ def game():
                 else:theBoard[pos]='O'
             count+=1
         printBoard(theBoard)
-        if count>4 and win(theBoard):
+        if count>4 and win(theBoard,'O'):
             print("!! Game Over !!")
             print("A.I won.")
             break
