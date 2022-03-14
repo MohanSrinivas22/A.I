@@ -1,18 +1,48 @@
-class Water_Jug:
-    def __init__(self,bj_max,sj_max,bj,sj,goal):
-        self.bj_max=bj_max
-        self.sj_max=sj_max
+class Waterjug:
+    def __init__(self,bjmax,sjmax,bj,sj,goal):
+        self.bjmax=bjmax
+        self.sjmax=sjmax
         self.bj=bj
         self.sj=sj
         self.goal=goal
-    def fill_bj(self):
+        
+    def fillbj(self):
         self.bj=self.bjmax
         print("(",self.bj,",",self.sj,")")
-    def fill_sj(self):
+        
+    def fillsj(self):
         self.bj=self.bjmax
-    def empty_bj(self):
+        print("(",self.bj,",",self.sj,")")
+        
+    def emptybj(self):
         self.bj=0
-    def empty_sj(self):
+        print("(",self.bj,",",self.sj,")")
+        
+    def emptysj(self):
         self.sj=0
-    def pour_bj_to_sj(self):
-        x=min(self.sj_max-self.sj,self.)
+        print("(",self.bj,",",self.sj,")")
+        
+    def transfer_bj_to_sj(self):
+        while True:
+            self.bj=self.bj-1
+            self.sj=self.sj+1
+            if self.bj==0 or self.sj==self.sjmax:
+                break
+        print("(",self.bj,",",self.sj,")")
+        
+    def measure_goal(self):
+        print("(",self.bj,",",self.sj,")")
+        while(True):
+            if self.bj==self.goal or self.sj==self.goal:
+                print("Successful measuring")
+                break
+            if self.bj==0:
+                self.fillbj()
+            elif self.bj>0 and self.sj<self.sjmax:
+                self.transfer_bj_to_sj()
+            elif self.bj>0 and self.sj==self.sjmax:
+                self.emptysj()                
+                
+if __name__ =='__main__':        
+    waterjug=Waterjug(int(input()),int(input()),int(input()),int(input()),int(input()))
+    waterjug.measure_goal()
