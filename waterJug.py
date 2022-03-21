@@ -1,4 +1,5 @@
-class Waterjug:
+class WaterJug:
+    
     def __init__(self,bjmax,sjmax,bj,sj,goal):
         self.bjmax=bjmax
         self.sjmax=sjmax
@@ -6,43 +7,77 @@ class Waterjug:
         self.sj=sj
         self.goal=goal
         
-    def fillbj(self):
-        self.bj=self.bjmax
-        print("(",self.bj,",",self.sj,")")
-        
-    def fillsj(self):
-        self.bj=self.bjmax
-        print("(",self.bj,",",self.sj,")")
-        
-    def emptybj(self):
-        self.bj=0
-        print("(",self.bj,",",self.sj,")")
-        
-    def emptysj(self):
-        self.sj=0
-        print("(",self.bj,",",self.sj,")")
-        
-    def transfer_bj_to_sj(self):
-        while True:
-            self.bj=self.bj-1
-            self.sj=self.sj+1
-            if self.bj==0 or self.sj==self.sjmax:
-                break
-        print("(",self.bj,",",self.sj,")")
-        
-    def measure_goal(self):
-        print("(",self.bj,",",self.sj,")")
-        while(True):
-            if self.bj==self.goal or self.sj==self.goal:
-                print("Successful measuring")
-                break
-            if self.bj==0:
-                self.fillbj()
-            elif self.bj>0 and self.sj<self.sjmax:
-                self.transfer_bj_to_sj()
-            elif self.bj>0 and self.sj==self.sjmax:
-                self.emptysj()                
+    def bfs(self):
+        opened,closed=[],[]
+        opened.append((0,0))
+        p=(0,0)
+        while self.goal not in p:
+            p=opened.pop(0)
+            closed.append(p)
+            bj,sj=p
+            #Goal case
+            if bj==self.goal or sj==self.goal:
+                print(p,' ',opened,' ',closed)
+                print("success")
+                return
+            #Rule - 1 fill bj
+            if bj==0 and ((self.bjmax,sj) not in closed) and ((self.bjmax,sj) not in opened):
+                opened.append((self.bjmax,sj))
+            #Rule - 2 fill sj
+            if sj==0 and ((bj,self.sjmax) not in closed) and ((bj,self.sjmax) not in opened):
+                opened.append((bj,self.sjmax))
+            #Rule - 3 empty bj
+            if bj>0 and ((0,sj) not in closed) and ((0,sj) not in opened):
+                opened.append((0,sj))    
+            #Rule - 4 empty sj
+            if sj>0 and ((bj,0) not in closed) and ((bj,0) not in opened):
+                opened.append((bj,0))
+            #Rule - 5 Transfer from bj to sj
+            if bj>0:
+                tbj,tsj=bj,sj
+                x=min(self.bjmax-sj,bj)
+                tsj+=x;tbj-=x
+                if ((tbj,tsj) not in closed) and ((tbj,tsj) not in opened):
+                    opened.append((tbj,tsj))
+                print(p,opened,closed,sep='\t')
                 
-if __name__ =='__main__':        
-    waterjug=Waterjug(int(input()),int(input()),int(input()),int(input()),int(input()))
-    waterjug.measure_goal()
+    def dfs(self):
+        opened,closed=[],[]
+        opened.append((0,0))
+        p=(0,0)
+        while self.goal not in p:
+            p=opened.pop()
+            closed.append(p)
+            bj,sj=p
+            #Goal case
+            if bj==self.goal or sj==self.goal:
+                print(p,' ',opened,' ',closed)
+                print("success")
+                return
+            #Rule - 1 fill bj
+            if bj==0 and ((self.bjmax,sj) not in opened) and ((self.bjmax,sj) not in closed):
+                opened.append((self.bjmax,sj))
+            #Rule - 2 fill sj
+            if sj==0 and ((bj,self.sjmax) not in closed) and ((bj,self.sjmax) not in opened):
+                opened.append((bj,self.sjmax))
+            #Rule - 3 empty bj
+            if bj>0 and ((0,sj) not in closed) and ((0,sj) not in opened):
+                opened.append((0,sj))    
+            #Rule - 4 empty sj
+            if sj>0 and ((bj,0) not in closed) and ((bj,0) not in opened):
+                opened.append((bj,0))
+            #Rule - 5 Transfer from bj to sj
+            if bj>0:
+                tbj,tsj=bj,sj
+                x=min(self.bjmax-sj,bj)
+                tsj+=x;tbj-=x
+                if ((tbj,tsj) not in closed) and ((tbj,tsj) not in opened):
+                    opened.append((tbj,tsj))
+                print(p,opened,closed,sep='\t')
+                
+        
+w=WaterJug(5,3,0,0,4)
+print('current ',' open ',' close',sep='\t')
+w.bfs()
+print('current ',' open ',' close',sep='\t')
+w.dfs()   
