@@ -1,53 +1,40 @@
 from collections import defaultdict
 class Graph:
-    def __init__(self, n):
-        self.graph=defaultdict(list)
-        self.n=n
-        self.ans=[]
-    
+    def __init__(self):
+        self.g=defaultdict(list)
+        
     def addEdge(self, u, v):
-        self.graph[u].append(v)
-        self.graph[v].append(u)
+        self.g[u].append(v)
+        self.g[v].append(u)
+        
+    def bfs(self,start,goal):
+        opened,closed=[start],[]
+        while opened:
+            p=opened.pop(0)
+            closed.append(p)
+            if p==goal:print('Goal node found');return closed
+            for j in self.g[p]:
+                if j not in opened and j not in closed:opened.append(j)
+        print('Goal node not found');return closed
     
-    def bfs(self, start, goal):
-        visited=[False]*self.n
-        queue=[start]
-        ans=[]
-        flag=False
-        while queue:
-            print(queue)
-            x=queue.pop(0)
-            ans.append(x)
-            visited[x]=True
-            for v in self.graph[x]:
-                if visited[v]==False and v not in queue:queue.append(v)
-                if v==goal:flag=True;break
-            if flag:ans.extend(queue);break
-        if flag:print('Goal node is found.')
-        else:print('Goal node is not found.')
-        return ans
+    def dfs(self,start,goal):
+        opened,closed=[start],[]
+        while opened:
+            p=opened.pop(0)
+            closed.append(p)
+            if p==goal:print('Goal node found');return closed
+            c=0
+            for j in self.g[p]:
+                if j not in opened and j not in closed:opened.insert(c,j);c+=1  
+        print('Goal node not found');return closed
     
-    def dfsmain(self,start,goal):
-        if start==goal:return True
-        self.vis.add(start)
-        self.anss.append(start)
-        flag=False
-        for v in self.graph[start]:
-            if v==goal:flag=True;break
-            if v not in self.vis:self.dfsmain(v, self.vis)
-        return flag
-    
-    def dfs(self, start, goal):
-        self.vis=set()
-        self.anss=[]
-        if self.dfsmain(start, goal):print('Goal node is found.')
-        else:print('Goal node is not found.')
-        return self.anss
-
-if __name__=='__main__':
-    g=Graph(int(input('No.of Nodes: ')))
-    for _ in range(int(input("Enter no.of edges: "))):
-        p,c=input('Enter edges: ').split()
-        g.addEdge(int(p),int(c))  
-    print(g.bfs(int(input('start node: ')),int(input('goal node: '))))
-    print(g.dfs(int(input('start node: ')),int(input('goal node: '))))
+g=Graph()
+n=int(input("Enter no.of Edges: "))
+for _ in range(n):
+    u,v=input("Enter u v :").split()
+    g.addEdge(u,v)
+start,goal=input('Start node: '),input('Goal node: ')
+bfs_path=g.bfs(start,goal)
+dfs_path=g.dfs(start,goal)
+print(bfs_path)
+print(dfs_path)
