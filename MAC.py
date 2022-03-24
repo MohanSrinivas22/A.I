@@ -51,7 +51,7 @@ class MAC:
                     temp=((lm,lc+2,1),(rm,rc-2,0))
                     if temp not in opened and temp not in closed:opened.append(temp)
                 # Rule - 3 shift 1 missionary and 1 canniballs    
-                if rc-1>=0 and rm-1>=0 and (rm-1>=rc-1 or lm==0) and lc+1<=3 and lm+1<=3 and lm+1>=lc+1:
+                if rc-1>=0 and rm-1>=0 and (rm-1>=rc-1 or rm==0) and lc+1<=3 and lm+1<=3 and lm+1>=lc+1:
                     temp=((lm+1,lc+1,1),(rm-1,rc-1,0))
                     if temp not in opened and temp not in closed:opened.append(temp)
                 # Rule - 4 shift 1 canniballs    
@@ -112,7 +112,7 @@ class MAC:
                     temp=((lm,lc+2,1),(rm,rc-2,0))
                     if temp not in opened and temp not in closed:opened.append(temp)
                 # Rule - 3 shift 1 missionary and 1 canniballs    
-                if rc-1>=0 and rm-1>=0 and (rm-1>=rc-1 or lm==0) and lc+1<=3 and lm+1<=3 and lm+1>=lc+1:
+                if rc-1>=0 and rm-1>=0 and (rm-1>=rc-1 or rm==0) and lc+1<=3 and lm+1<=3 and lm+1>=lc+1:
                     temp=((lm+1,lc+1,1),(rm-1,rc-1,0))
                     if temp not in opened and temp not in closed:opened.append(temp)
                 # Rule - 4 shift 1 canniballs    
