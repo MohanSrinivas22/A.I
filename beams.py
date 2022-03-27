@@ -48,3 +48,55 @@ for _ in range(m):
     g.addEdge(u,v)
 start,goal=input('Enter start and goal nodes : ').split()
 g.beams(start,goal)
+
+
+#Sample input:
+'''
+17
+2
+a 20
+b 10
+c 13
+d 9
+e 7
+f 11
+g 8
+h 9
+i 4
+j 12
+k 9
+l 5
+m 7
+n 10
+p 14
+q 3
+r 9
+17
+a b
+a c
+a d
+b e
+b f
+c g
+d h
+d i
+d j
+e k
+e l
+f m
+g n
+h o
+i p
+i q
+j r
+a q
+'''
+#Sample Output: 
+'''
+[] [] ['a']
+['d', 'b', 'c'] ['d', 'b'] ['a']
+['i', 'e', 'h', 'f', 'j'] ['i', 'e'] ['a', 'd', 'b']
+['q', 'l', 'k', 'p'] ['q', 'l'] ['a', 'd', 'b', 'i', 'e']
+[] ['l'] ['a', 'd', 'b', 'i', 'e', 'q']
+Goal node found
+'''
