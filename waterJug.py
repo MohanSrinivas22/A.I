@@ -1,83 +1,60 @@
 class WaterJug:
-    
-    def __init__(self,bjmax,sjmax,bj,sj,goal):
-        self.bjmax=bjmax
-        self.sjmax=sjmax
-        self.bj=bj
-        self.sj=sj
-        self.goal=goal
-        
-    def bfs(self):
-        opened,closed=[],[]
-        opened.append((0,0))
-        p=(0,0)
-        while self.goal not in p:
-            p=opened.pop(0)
-            closed.append(p)
-            bj,sj=p
-            #Goal case
-            if bj==self.goal or sj==self.goal:
-                print(p,' ',opened,' ',closed)
-                print("success")
-                return
-            #Rule - 1 fill bj
-            if bj==0 and ((self.bjmax,sj) not in closed) and ((self.bjmax,sj) not in opened):
-                opened.append((self.bjmax,sj))
-            #Rule - 2 fill sj
-            if sj==0 and ((bj,self.sjmax) not in closed) and ((bj,self.sjmax) not in opened):
-                opened.append((bj,self.sjmax))
-            #Rule - 3 empty bj
-            if bj>0 and ((0,sj) not in closed) and ((0,sj) not in opened):
-                opened.append((0,sj))    
-            #Rule - 4 empty sj
-            if sj>0 and ((bj,0) not in closed) and ((bj,0) not in opened):
-                opened.append((bj,0))
-            #Rule - 5 Transfer from bj to sj
-            if bj>0:
-                tbj,tsj=bj,sj
-                x=min(self.bjmax-sj,bj)
-                tsj+=x;tbj-=x
-                if ((tbj,tsj) not in closed) and ((tbj,tsj) not in opened):
-                    opened.append((tbj,tsj))
-                print(p,opened,closed,sep='\t')
-                
-    def dfs(self):
-        opened,closed=[],[]
-        opened.append((0,0))
-        p=(0,0)
-        while self.goal not in p:
-            p=opened.pop()
-            closed.append(p)
-            bj,sj=p
-            #Goal case
-            if bj==self.goal or sj==self.goal:
-                print(p,' ',opened,' ',closed)
-                print("success")
-                return
-            #Rule - 1 fill bj
-            if bj==0 and ((self.bjmax,sj) not in opened) and ((self.bjmax,sj) not in closed):
-                opened.append((self.bjmax,sj))
-            #Rule - 2 fill sj
-            if sj==0 and ((bj,self.sjmax) not in closed) and ((bj,self.sjmax) not in opened):
-                opened.append((bj,self.sjmax))
-            #Rule - 3 empty bj
-            if bj>0 and ((0,sj) not in closed) and ((0,sj) not in opened):
-                opened.append((0,sj))    
-            #Rule - 4 empty sj
-            if sj>0 and ((bj,0) not in closed) and ((bj,0) not in opened):
-                opened.append((bj,0))
-            #Rule - 5 Transfer from bj to sj
-            if bj>0:
-                tbj,tsj=bj,sj
-                x=min(self.bjmax-sj,bj)
-                tsj+=x;tbj-=x
-                if ((tbj,tsj) not in closed) and ((tbj,tsj) not in opened):
-                    opened.append((tbj,tsj))
-                print(p,opened,closed,sep='\t')
-                
-        
-w=WaterJug(5,3,0,0,4)
-print('current ',' open ',' close',sep='\t')
+  def __init__(self,bjmax,sjmax,target):
+    self.bjmax=bjmax
+    self.sjmax=sjmax
+    self.goal=target
+  def bfs(self):
+    print('BFS Approach : ')
+    opened,closed=[],[]
+    opened.append((0,0))
+    print(opened,closed,sep='\t\t\t')
+    while opened:
+      p=opened.pop(0)
+      closed.append(p)
+      # Goal State
+      if self.goal in p:
+        print(opened,closed,sep='\t\t\t')
+        print('Goal State is attained');return
+      # Rule - 1 fill Small Jug
+      if p[1]==0 and (p[0],self.sjmax) not in opened+closed:opened.append((p[0],self.sjmax))
+      # Rule - 2 empty Big Jug
+      if p[0]==self.bjmax and (0,p[1]) not in opened+closed: opened.append((0,p[1])) 
+      # Rule - 3 empty Small Jug to Big Jug
+      if p[0]+p[1]<=self.bjmax and (p[0]+p[1],0) not in opened+closed: opened.append((p[0]+p[1],0))
+      # Rule - 4 transfer Small Jug to Big Jug
+      if p[0]+p[1]>self.bjmax:
+        temp=self.bjmax-p[0]
+        temp=(p[0]+temp,p[1]-temp)
+        if temp not in opened+closed: opened.append(temp)
+      print(opened,closed,sep='\t\t\t')
+    print('Goal State not Possible')
+  def dfs(self):
+    print('DFS Approach : ')
+    opened,closed=[],[]
+    opened.append((0,0))
+    print(opened,closed,sep='\t\t\t')
+    while opened:
+      p=opened.pop()
+      closed.append(p)
+      # Goal State
+      if self.goal in p:
+        print(opened,closed,sep='\t\t\t')
+        print('Goal State is attained');return
+      # Rule - 1 fill Small Jug
+      if p[1]==0 and (p[0],self.sjmax) not in opened+closed:opened.append((p[0],self.sjmax))
+      # Rule - 2 empty Big Jug
+      if p[0]==self.bjmax and (0,p[1]) not in opened+closed: opened.append((0,p[1])) 
+      # Rule - 3 empty Small Jug to Big Jug
+      if p[0]+p[1]<=self.bjmax and (p[0]+p[1],0) not in opened+closed: opened.append((p[0]+p[1],0))
+      # Rule - 4 transfer Small Jug to Big Jug
+      if p[0]+p[1]>self.bjmax:
+        temp=self.bjmax-p[0]
+        temp=(p[0]+temp,p[1]-temp)
+        if temp not in opened+closed: opened.append(temp)
+      print(opened,closed,sep='\t\t\t')
+    print('Goal State not Possible')
+
+bjmax,sjmax,target=map(int,input('Enter capacities of jugs and target : ').split())
+w=WaterJug(bjmax, sjmax, target)
 w.bfs()
-print('current ',' open ',' close',sep='\t')
-w.dfs()   
+w.dfs()
