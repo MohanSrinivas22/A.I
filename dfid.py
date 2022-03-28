@@ -26,9 +26,9 @@ class Graph:
             i+=1
         print('Goal found')
 g=Graph()
-n=int(input())
-for _ in range(n):
-    u,v=input().split()
+n=int(input('No.of edges : '))
+for _ in range(n):                              # Enter  Space seperated edge nodes
+    u,v=input('Enter Edge nodes : ').split()
     g.addEdge(u,v)
-start,goal=input().split()
+start,goal=input('Enter start and goal nodes : ').split()
 g.dfid(start,goal)
