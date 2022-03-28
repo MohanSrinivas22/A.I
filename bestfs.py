@@ -41,3 +41,35 @@ for _ in range(m):
   g.addEdge(u,v)
 start,goal=input('Enter start and goal states: ').split()
 g.bestfs(start,goal)
+
+# Sample input: 
+'''
+7
+a 12
+b 11
+c 10
+d 5
+e 3
+f 4
+i 9
+6
+a b
+a c
+b d
+b e
+b f
+c i
+a e
+'''
+# Sample output: 
+'''
+Best First Search : 
+open			close
+['a']			[]
+['c', 'b']			['a']
+['i', 'b']			['a', 'c']
+['b']			['a', 'c', 'i']
+['e', 'f', 'd']			['a', 'c', 'i', 'b']
+['f', 'd']			['a', 'c', 'i', 'b', 'e']
+Goal node found
+'''
