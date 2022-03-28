@@ -52,7 +52,7 @@ g.beams(start,goal)
 
 #Sample input:
 '''
-17
+18
 2
 a 20
 b 10
