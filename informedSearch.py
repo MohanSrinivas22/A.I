@@ -80,36 +80,35 @@ Goal node found
 ''' Branch and bound '''
 from collections import defaultdict
 class Graph:
-  def __init__(self,n):
-    self.n=n
-    self.g={}
-    self.graph=defaultdict(list)
+    def __init__(self,n):
+        self.n=n
+        self.g={}
+        self.graph=defaultdict(list)
     
-  def addEdge(self,u,v,i):
-    self.graph[u].append(v)
-    self.graph[v].append(u)
-    if u not in self.g: self.g[u]=0
-    self.g[v]=i+self.g[u]
-  
-  def branch_bounds(self,start,goal):
-    print('Branch and bound Search : ')
-    print("open","close",sep='\t\t\t')
-    opened,closed=[],[]
-    opened.append(start)
-    print(opened, closed, sep='\t\t\t')
-    while opened:
-      p=opened.pop(0)
-      closed.append(p)
-      #Goal node
-      if p==goal:
-        print(opened,closed,sep='\t\t\t')
-        print('Goal node found');return
-      #Successors Generation
-      for v in self.graph[p]:
-        if v not in opened and v not in closed:opened.append(v)
-      opened.sort(key=lambda x:self.g[x])
-      print(opened,closed,sep='\t\t\t')
-    print('Goal node not found')
+    def addEdge(self,u,v,i):
+        if u not in self.g: self.g[u]=0
+        self.g[v]=i+self.g[u]
+        self.graph[u].append((v,i+self.g[u]))
+    
+    def branch_bounds(self,start,goal):
+        print('Branch and bound Search : ')
+        print("open","close",sep='\t\t\t')
+        opened,closed=[],[]
+        opened.append((start,self.g[start]))
+        print(opened, closed, sep='\t\t\t')
+        while opened:
+            p=opened.pop(0)
+            closed.append(p)
+            #Goal node
+            if goal == p[0]:
+                print(opened,closed,sep='\t\t\t')
+                print('Goal node found');return
+            #Successors Generation
+            for v in self.graph[p[0]]:
+                if v not in opened and v not in closed:opened.append(v)
+            opened.sort(key=lambda x:x[1])
+            print(opened,closed,sep='\t\t\t')
+        print('Goal node not found')
     
 n=int(input('Enter no.of nodes: '))
 gr=Graph(n)
@@ -117,6 +116,7 @@ m=int(input('Enter no.of edges: '))
 for _ in range(m):
   u,v,i=input('Enter edge nodes and heuristic :  ').split()
   gr.addEdge(u,v,int(i))
+print(gr.g)
 start,goal=input('Enter start and goal states: ').split()
 gr.branch_bounds(start,goal)
 
@@ -164,6 +164,30 @@ open                                close
 ['j', 'm', 'o', 'p']                  ['a', 'b', 'e', 'c', 'f', 'd', 'g', 'l', 'h', 'k', 'i', 'n']
 ['m', 'o', 'r', 'q', 'p']             ['a', 'b', 'e', 'c', 'f', 'd', 'g', 'l', 'h', 'k', 'i', 'n', 'j']
 ['o', 'r', 'q', 'p']                  ['a', 'b', 'e', 'c', 'f', 'd', 'g', 'l', 'h', 'k', 'i', 'n', 'j', 'm']
+Goal node found
+'''
+# Sample input-2 :-
+'''
+5
+6
+0 1 2
+0 2 8
+0 3 4
+1 4 11
+2 4 1
+3 4 7
+0 4
+'''
+# Sample output-2 : 
+'''
+Branch and bound Search : 
+open                                    close
+[('0', 0)]                              []
+[('1', 2), ('3', 4), ('2', 8)]          [('0', 0)]
+[('3', 4), ('2', 8), ('4', 13)]         [('0', 0), ('1', 2)]
+[('2', 8), ('4', 11), ('4', 13)]        [('0', 0), ('1', 2), ('3', 4)]
+[('4', 9), ('4', 11), ('4', 13)]        [('0', 0), ('1', 2), ('3', 4), ('2', 8)]
+[('4', 11), ('4', 13)]                  [('0', 0), ('1', 2), ('3', 4), ('2', 8), ('4', 9)]
 Goal node found
 '''
 
