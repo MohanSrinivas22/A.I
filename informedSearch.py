@@ -143,7 +143,7 @@ class Graph:
         self.graph[v].append(u)
   
     def hillClimb(self,start,goal):
-        print('Best First Search : ')
+        print('Hill Climbing Search : ')
         print("open","close",sep='\t\t\t')
         opened,closed=[],[]
         opened.append(start)
