@@ -121,13 +121,34 @@ start,goal=input('Enter start and goal states: ').split()
 gr.branch_bounds(start,goal)
 
 # Sample input :-
+'''
+18
+18
+a b 5
+a c 9
+a d 12
+b e 3
+b f 5
+c g 4
+c h 5
+d i 6
+d j 7
+e k 8
+e l 6
+f m 7
+g m 7
+g n 5
+h o 6
+i p 9
+j q 3
+j r 2
+a m
+'''
 
 #Sample output :-
 '''
 
 '''
-
-
 
 
 '''Hill Climbing'''
