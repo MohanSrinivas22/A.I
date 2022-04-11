@@ -105,7 +105,7 @@ class Graph:
                 print('Goal node found');return
             #Successors Generation
             for v in self.graph[p[0]]:
-                if v not in opened and v not in closed:opened.append(v)
+                if v not in closed:opened.append(v)
             opened.sort(key=lambda x:x[1])
             print(opened,closed,sep='\t\t\t')
         print('Goal node not found')
