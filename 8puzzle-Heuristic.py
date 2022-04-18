@@ -119,3 +119,66 @@ start=tuple(int(a) for a in input("Enter start state space seperated: ").split()
 goal=tuple(int(a) for a in input("Enter goal state space seperated: ").split())
 ep=Graph()
 ep.branch_bounds(start,goal)
+
+
+
+
+# Hill Climbing :
+class Graph:
+  def __init__(self):pass
+    
+  def h(self, node):
+    count=0
+    for i in range(9):
+      if node[i]!=self.goal[i]:count+=1
+    return count
+  
+  def hillClimb(self,start,goal):
+    self.goal=goal
+    print('Hill Climbing Search : ')
+    print("open","close",sep='\t\t\t')
+    opened,closed=[],[]
+    opened.append(start)
+    print(opened, closed, sep='\t\t\t')
+    while opened:
+      p=opened.pop(0)
+      closed.insert(0,p)
+      opened.sort(key=lambda x: self.h(x))
+      #Goal node
+      if p==goal:
+        print(opened,closed,sep='\t\t\t')
+        print('Goal node found');return
+      #Successors Generation
+      blank=p.index(0)
+      # Move Up
+      if blank>=3:
+        v=list(p[:])
+        v[blank],v[blank-3]=p[blank-3],p[blank]
+        v=tuple(v)
+        if v not in opened and v not in closed:opened.append(v)
+      # Move Down
+      if blank<=5:
+        v=list(p[:])
+        v[blank],v[blank+3]=p[blank+3],p[blank]
+        v=tuple(v)
+        if v not in opened and v not in closed:opened.append(v)    
+      # Move Left
+      if blank not in (0,3,6):
+        v=list(p[:])
+        v[blank],v[blank-1]=p[blank-1],p[blank]
+        v=tuple(v)
+        if v not in opened and v not in closed:opened.append(v)
+      # Move Right
+      if blank not in (2,5,8):
+        v=list(p[:])
+        v[blank],v[blank+1]=p[blank+1],p[blank]
+        v=tuple(v)
+        if v not in opened and v not in closed:opened.append(v)
+      print(opened,closed,sep='\t\t\t')
+    print('Goal node not found')
+
+# Main code :
+start=tuple(int(a) for a in input("Enter start state space seperated: ").split())
+goal=tuple(int(a) for a in input("Enter goal state space seperated: ").split())
+ep=Graph()
+ep.hillClimb(start,goal)
