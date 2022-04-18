@@ -182,3 +182,74 @@ start=tuple(int(a) for a in input("Enter start state space seperated: ").split()
 goal=tuple(int(a) for a in input("Enter goal state space seperated: ").split())
 ep=Graph()
 ep.hillClimb(start,goal)
+
+
+
+
+# Beam
+class Graph:
+  def __init__(self, w):
+    self.w=w
+
+  def h(self, node):
+    count=0
+    for i in range(9):
+      if node[i]!=self.goal[i]:count+=1
+    return count
+
+  def succs(self, p, opened, closed):
+    blank=p.index(0)
+    # Move Up
+    if blank>=3:
+      v=list(p[:])
+      v[blank],v[blank-3]=p[blank-3],p[blank]
+      v=tuple(v)
+      if v not in closed: opened.append(v)
+    # Move Down
+    if blank<=5:
+      v=list(p[:])
+      v[blank],v[blank+3]=p[blank+3],p[blank]
+      v=tuple(v)
+      if v not in closed:opened.append(v)    
+    # Move Left
+    if blank not in (0,3,6):
+      v=list(p[:])
+      v[blank],v[blank-1]=p[blank-1],p[blank]
+      v=tuple(v)
+      if v not in closed:opened.append(v)
+    # Move Right
+    if blank not in (2,5,8):
+      v=list(p[:])
+      v[blank],v[blank+1]=p[blank+1],p[blank]
+      v=tuple(v)
+      if v not in closed:opened.append(v)
+    
+  
+  def beams(self, start, goal):
+    self.goal=goal
+    not_found=True
+    w_opened,opened,closed=[],[],[]
+    if start==self.goal:print("Goal node found");not_found=False;return
+    closed.append(start)
+    print(opened,w_opened,closed)
+    self.succs(start,opened,closed)
+    opened.sort(key=lambda x:self.h(x))
+    w_opened=opened[:self.w]
+    print(opened,w_opened,closed)
+    while not_found:
+      opened.clear()
+      while w_opened:
+        p=w_opened.pop(0)
+        closed.append(p)
+        if p==goal:print(opened,w_opened,closed);print('Goal node found');not_found=False;return
+        self.succs(p,opened,closed)
+      opened.sort(key=lambda x:self.h(x))
+      w_opened=opened[:self.w]  
+      print(opened,w_opened,closed)
+      if all(i in closed for i in w_opened):print('Goal node not found');return
+
+# Main code :
+start=tuple(int(a) for a in input("Enter start state space seperated: ").split())
+goal=tuple(int(a) for a in input("Enter goal state space seperated: ").split())
+ep=Graph(2)
+ep.beams(start,goal)
